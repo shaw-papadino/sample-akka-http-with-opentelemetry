@@ -1,5 +1,5 @@
 ## akka-http-with-opentelemetry
-AOpenTelemetryのAuto Instrument機能を使って, Akka-HTTPアプリケーションをトレーシングしたサンプルプロジェクトです。
+OpenTelemetryのAuto Instrument機能を使って, Akka-HTTPアプリケーションをトレーシングしたサンプルプロジェクトです。
 
 ## 動作確認
 1. docker composeで以下のコンテナを起動する
