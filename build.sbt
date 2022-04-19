@@ -1,6 +1,7 @@
-lazy val akkaHttpVersion = "10.2.9"
-lazy val akkaVersion    = "2.6.18"
-lazy val openTelemetryVersion = "1.11.0"
+lazy val akkaHttpVersion = "10.2.4"
+lazy val akkaVersion    = "2.6.14"
+lazy val openTelemetryVersion = "1.10.0"
+lazy val mesmerVersion = "0.6.0"
 // Run in a separate JVM, to make sure sbt waits until all threads have
 // finished before returning.
 // If you want to keep the application running while executing other
@@ -24,14 +25,19 @@ lazy val root = (project in file("."))
 
       "io.opentelemetry" % "opentelemetry-exporter-otlp" % openTelemetryVersion,
 
+      "io.scalac" %% "mesmer-akka-extension" % mesmerVersion,
+      "io.opentelemetry" % "opentelemetry-exporter-otlp-metrics" % s"${openTelemetryVersion}-alpha",
+      "io.opentelemetry" % "opentelemetry-sdk" % openTelemetryVersion,
+      "io.grpc" % "grpc-netty-shaded" % "1.43.2",
+
+
       "com.typesafe.akka" %% "akka-http-testkit"        % akkaHttpVersion % Test,
       "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
       "org.scalatest"     %% "scalatest"                % "3.1.4"         % Test
     ),
     javaAgents += JavaAgent("io.opentelemetry.javaagent" % "opentelemetry-javaagent" % openTelemetryVersion % "runtime"),
-    Compile / run / javaOptions ++= Seq(
-    "-Dotel.service.name=sample-akka-http",
-    "-Dotel.javaagent.debug=true",
-//      "-Dotel.traces.sampler=always_on"
-
-))
+    run / javaOptions ++= Seq(
+      "-Dotel.service.name=sample-akka-http",
+      "-Dotel.metrics.exporter=otlp",
+      "-Dotel.traces.sampler=always_on")
+)

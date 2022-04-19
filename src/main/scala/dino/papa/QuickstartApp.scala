@@ -4,7 +4,6 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
-
 import scala.util.Failure
 import scala.util.Success
 
@@ -27,6 +26,7 @@ object QuickstartApp {
   }
   //#start-http-server
   def main(args: Array[String]): Unit = {
+
     //#server-bootstrapping
     val rootBehavior = Behaviors.setup[Nothing] { context =>
       val userRegistryActor = context.spawn(UserRegistry(), "UserRegistryActor")
